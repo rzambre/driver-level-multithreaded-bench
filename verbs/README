@@ -1,0 +1,9 @@
+The sharing-parameters are with respect to threads.
+By default the benchmark will use a postlist size of 32. To use a postlist size of 1, use -p 1 flag.
+To control CTX sharing, use the -X flag.
+Without specifying any other sharing-flag, other resources won't be shared between threads.
+
+For example, to send a 2-byte message by sharing a CTX between every 2 QPs using a postlist size of 1, execute the following:
+OMP_PLACES=cores OMP_PROC_BIND=close mpiexec -n 2 -ppn 1 -bind-to core:16 -hosts <sender>,<receiver> ./mpi_omp_rc_multiQP_resSharing_write_bench -d mlx5_0 -S 2 -t 16 -p 1 -X 16
+
+The value of the -bind-to core option must match the number of threads for the best performance. See "mpiexec -bind-to -h".
